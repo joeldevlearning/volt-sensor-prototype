@@ -3,27 +3,35 @@ Hardware, software, and interfaces
 ---
 
 
-### 1. **Devices** `hardware/software` (Interact with environment; sensors, microcontrollers, etc.)
-| Device         | Type                 | Function  |
-| ------------- |:-------------:| -----:|
-| ???      | temperature sensor | feeds data to Volttron |
-| ???      | ???      |   ??? |
+### + **Devices** `hardware/software`
+| Component             | Description  |
+| temperature sensor    | feeds data to Volttron in real time |
+| ???                   | ??? |
 
-### 2. **Device-Volttron Interface** `API` (Communication between devices and Volttron)
+### + **Device-Volttron Interface** `API`
+| ???                           | allows Volttron to read sensor data in real time |
 
-### 3. **Volttron** `hardware/software` 
+### + **Local Server** `hardware\software` ()
+| Raspberry Pi                  | server hardware |
+| Raspbian (Debian Linux)       | server OS |
+| MySQL                         | database |
 
-### 4. **Volttron-Storage Interface** `API`
+### + **Volttron** `software` 
+| Volttron platform             | runs data pipeline connecting sensors to analytics; can control fan |
+| Volttron publisher agent      | code within Volttron reading data from sensors |
+| Volttron historian agent      | code within Volttron writing to SQL database |
+| Volttron alert agent          | code within Volttron responding to important/exceptional events |
 
-### 5. **local storage** `hardware/software`
+### + **Storage Replicator** `software`
+| ???                           | mirrors database to cloud |
 
-### 6. **Voltron-Analytics Interface** `API`
+### + **Analytics** `software`
+| ???                           | aggregates and summarizes sensor data; generates actionable reports |
 
-### 7. **Analytics** `software`
+### + **Cloud app** `hardware\software`
+| Linux VPS host                | hosts remote database, web server, and app |
+| Cloud web app                 | provides remote monitoring of platform |
 
-### 8. **Volttron-Cloud Interface** `API`
-
-### 9. **Cloud app** `hardware\software`
 
 ---
 ## Devices `hardware/software`
