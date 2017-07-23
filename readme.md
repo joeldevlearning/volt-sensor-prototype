@@ -3,9 +3,10 @@
 # Milestone 1
 ### Volttron reads data from simulated and real sensors
 - [ ] Identify viable sensor and sensor interface
-- [ ] Mock sensor input in Volttron
-- [ ] Create sample Volttron subscriber/listener agent
+- [ ] Run through Volttron example agents and lightly modify them 
 - [ ] Create sample Vottron datapublisher (fake/mock device) for subscriber 
+- [ ] Create sample Volttron subscriber/listener agent
+- [ ] Mock sensor input in Volttron
 - [ ] Refactor pub/sub samples for realistic sensor data
 - [ ] Unit test sensor input
 - [ ] Unit test pub/sub flow 
@@ -21,9 +22,12 @@
 - [ ] Setup remote replication of database
 
 # Milestone 3
-### Full prototype working with passing tests
+### Full prototype works and passes tests
 - [ ] Build functional tests for data pipeline
 - [ ] Build performance/stress test for data pipeline
 
 # Milestone 4
-### Deploy the prototype on site and pass all the tests
+### Data is used to generate decisions and control fan
+
+# Milestone 5
+### Prototype is deployed on site and passes tests
