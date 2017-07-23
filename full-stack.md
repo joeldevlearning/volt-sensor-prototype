@@ -1,26 +1,27 @@
 # Full Stack Overview
-Hardware, software, and interfaces
+##Hardware, software, and interfaces
 ---
 
 
-- ### **Devices** `hardware/software`
+## **Devices** `hardware/software`
 | Component             | Description  |
+| :---         |     :---:      |
 | temperature sensor    | feeds data to Volttron in real time |
 | ???                   | ??? |
 
-- ### * **Device-Volttron Interface** `API`
+## * **Device-Volttron Interface** `API`
 | Component             | Description  |
 | :---         |     :---:      |
 | ???                           | allows Volttron to read sensor data in real time |
 
-- ### * **Local Server** `hardware\software`
+## * **Local Server** `hardware\software`
 | Component             | Description  |
 | :---         |     :---:      |
 | Raspberry Pi                  | server hardware |
 | Raspbian (Debian Linux)       | server OS |
 | MySQL                         | database |
 
-- ### * **Volttron** `software` 
+## * **Volttron** `software` 
 | Component             | Description  |
 | :---         |     :---:      |
 | Volttron platform             | runs data pipeline connecting sensors to analytics; can control fan |
@@ -28,17 +29,17 @@ Hardware, software, and interfaces
 | Volttron historian agent      | code within Volttron writing to SQL database |
 | Volttron alert agent          | code within Volttron responding to important/exceptional events |
 
-- ### * **Storage Replicator** `software`
+## * **Storage Replicator** `software`
 | Component             | Description  |
 | :---         |     :---:      |
 | ???                           | mirrors database to cloud |
 
-- ### * **Analytics** `software`
+## * **Analytics** `software`
 | Component             | Description  |
 | :---         |     :---:      |
 | ???                           | aggregates and summarizes sensor data; generates actionable reports |
 
-- ### * **Cloud app** `hardware\software`
+## * **Cloud app** `hardware\software`
 | Component             | Description  |
 | :---         |     :---:      |
 | Linux VPS host                | hosts remote database, web server, and app |
