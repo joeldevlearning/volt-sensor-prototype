@@ -15,14 +15,16 @@
 
 # Milestone 2
 ### Data is stored, analyzed, and reported
-- [ ] Create schema for raw and aggregate sensor data
 - [ ] Define key reporting metrics
+- [ ] Define algorithm for aggregating and processing sensor data
+- [ ] Create schema for raw and aggregate sensor data
 - [ ] Create Volttron historian agent for MySQL database
 - [ ] Create web API endpoint for pub/sub sensor data (callable from outside volttron)
 - [ ] Setup remote replication of database
 
 # Milestone 3
 ### Full prototype works and passes tests
+- [ ] Finish full-stack document and corresponding diagram
 - [ ] Build functional tests for data pipeline
 - [ ] Build performance/stress test for data pipeline
 
