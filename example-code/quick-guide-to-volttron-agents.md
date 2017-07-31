@@ -48,11 +48,15 @@ Agents derive from the base volttron Agent.
 - A standard python (2.x) file for packages. Indicates that there is module code in this folder.
 
 
+> NOTE: Agent packages are placed in the your VOLTTRON_HOME directory. 
+This defaults to the home directory of the user you are running under 
+(NOT the folder where volttron is located).
+
 --------------------
 CONFIGURING AGENTS
 --------------------
 #### How does Volttron become aware of a new agent? 
-Agents have to be added to volttron, using the following steps:
+Agents can be added to Volttron from any location. To begin, enter the virtualenv, then use the following steps.
 
 1. Setup each agent in its own folder (see structure above)
 2. enter the virtualenv (```. env/bin/activate```)
@@ -60,9 +64,23 @@ Agents have to be added to volttron, using the following steps:
 4) attach the config file to the agent's package (```volttron-pkg configure PACKAGE_FILE CONFIG_FILE```)
 5) install the agent (```volttron-ctl install PACKAGE_FILE --tag AGENT_NAME```)
 
-The command ``volttron-ctl list`` will list non-default installed agents.
+>...Start the platform with ```volttron -vv -l volttron.log&```
+6) start the agent (```volttron-ctl start --name AGENT_NAME```)
 
-Reference: http://volttron.readthedocs.io/en/releases-4.1/devguides/agent_development/Agent-Development.html#packaging-agent
+
+The command ```volttron-ctl stop --name AGENT_NAME``` will stop the agent.
+
+The command ``volttron-ctl list`` will list non-core installed agents. 
+The command ``volttron-ctl status`` will list non-core agents that are running.
+
+The command ```volttron-ctl remove --name <AGENT_NAME>``` will uninstall the agent and remove it from ```list``` results.
+
+
+References: 
+http://volttron.readthedocs.io/en/releases-4.1/devguides/agent_development/Agent-Development.html#packaging-agent
+
+http://volttron.readthedocs.io/en/releases-4.1/core_services/control/AgentManagement.html
+
 
 ---------------------
 COMMUNICATING WITH AGENTS
