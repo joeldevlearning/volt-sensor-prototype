@@ -1,0 +1,6 @@
+; this file overrides default volttron configuration
+
+
+; for vagrant, we ssh into the VM as user "vagrant"
+; but we want volttron to use the folder /volt (under system /)
+VOLTTRON_HOME=/volt
