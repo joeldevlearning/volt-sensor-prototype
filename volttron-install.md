@@ -1,10 +1,9 @@
-# Volttron Setup
-How to quickly setup Volttron for our system. 
+# Server Setup
+Steps for building the server on a fresh system. Includes volttron, database, and dashhboard.
 
 ---
 PRE-INSTALLATION
 ---
-
 
 > TODO: Need to talk about user account and software prerequisites 
 
@@ -28,4 +27,18 @@ ROOT_FOLDER/
 ```
 
 #### boostrap.py
-This is  
+
+
+
+-------------------------
+MariaDB Installation
+-------------------------
+
+-------------------------
+MariaDB Replication, Local Setup
+-------------------------
+> TODO: Consider master-slave setup: https://mariadb.com/kb/en/mariadb/standard-replication/
+
+-------------------------
+MariaDB Replication, Cloud
+-------------------------
