@@ -7,15 +7,28 @@ http://volttron.readthedocs.io/en/releases-4.1/devguides/agent_development/Agent
 What are agents?
 ---
 
-Agents are python packages that are... 
-1) packaged by volttron (in .volttron/packaged/...)
-2) registered with volttron control (aka volttron-ctl)
-3) possessing a VIP ID, and optionally a tag name
-4) started and stopped by volttron
+Agents are python modules which operate like plugins to Volttron. They exist inside Volttron's virtualenv ("virtual environment"). The core of an agent is a class that derives from volttron's "Agent" class.
 
-The core of an agent is a class that derives from volttron's "Agent" class.
+#### Packaging
+Agents are packaged into python wheel files and stored in ```/.volttron/packaged/```. This is accomplished via the command ```volttron-pkg```. Packaging requires each agent to have a setup.py file.
 
-Reference: http://volttron.readthedocs.io/en/releases-4.1/specifications/agent-vip-id.html
+#### Discovery and Importing("installation")
+Agents are discovered and imported by the user explicitly installing them with the ```volttron-ctl``` command. They are given a VIP ID and optionally can be assigned a "tag" for human-friendly naming.
+
+#### Enabling/Disabling ("starting/stopping")
+Agents are enabled after Volttron starts. They can be set to automatically enable with the command command using ```volttron-ctl enable``` or enabled once with ```volttron-ctl start```. The corresponding commands are ```disable``` and ```stop```.
+
+#### Integration
+Agents implement a class that derives from Volttron's Agent class. A custom agent them uses built-in API methods.
+>TODO: What about Drivers and Historian agents? 
+
+#### Invocation
+ An agent's class is executed by Volttron via a Reactor pattern. The agent reactor dispatches the agent to a thread and polls regularly to execute it.
+>TODO: How are agents initially run?
+
+Agent IDs: http://volttron.readthedocs.io/en/releases-4.1/specifications/agent-vip-id.html
+
+Platform Commands: http://volttron.readthedocs.io/en/4.1/core_services/control/PlatformCommands.html
 
 -------------------------
 FOLDER STRUCTURE:
@@ -32,7 +45,7 @@ TestAgent/
 
 #### What do these files do?
 ##### "setup.py"
-- A standard python file. Setup is used to build an agent into wheel file.
+- A standard python file. Setup is used to build an agent into wheel file and enter the agent into Volttron's virtualenv namespace.
 (Wheel is a zipped, pre-compiled bytecode format for python packages).
 Volttron uses this file when it runs the command "volttron-pkg package TestAgent".
 
@@ -88,19 +101,29 @@ COMMUNICATING WITH AGENTS
 
 Agents can communicate through various methods:
  
-1) Local or remote RPC calls. Adding the @RPC.export decorator to an agent's function, 
+#### RPC (Remote Procedure Call) 
+
+An agent method marked with the @RPC.export decorator can be called by another agent.
+
+If the web system is running, an RPC method can be remotely invoked. 
 http://volttron.readthedocs.io/en/releases-4.1/specifications/external-rpc-enhancement.html
 
-2) use pub/sub on the local or remove message bus via @PubSub.subscribe
+#### Message bus
+(ZeroMQ, message queue, etc.)
+
+Agents come with built-in publication-subscribe functionality (e.g. @PubSub.subscribe).
+
 http://volttron.readthedocs.io/en/releases-4.1/specifications/pubsub-enhancement.html
 
-OR
-use pub/sub locally or remotely
+>TODO: Can this be used remotely?
 
+#### Direct web requests
 
-respond to external network requests (URL path for static files, JSON for dynamic,
-or websocket for bidirectional communication)
-see:
--
- http://volttron.readthedocs.io/en/develop/specifications/webframework.html
+If the web system is running, agents can be forwarded web requests. There are three techniques here:
+
+- Agents can be bound to a URL path. In this case, they can only return static files. 
+- Agents can respond to a JSON-RPC request. Their response can be dynamic.
+- Agents can be bound to a websocket. This allows for bidirectional communication.
+
+http://volttron.readthedocs.io/en/develop/specifications/webframework.html
 
