@@ -38,24 +38,24 @@ ROOT/
     └──/warning    
 ```
 
-##### ROOT
+#### ROOT
 The root page is default. It summarizes status and data information.
 
 >The root page is customized for general purpose. Other pages specialize and provide more detail.
 
-##### data/current
+#### data/current
 Full view of current data only. Auto-refreshes every 90 seconds.
 
-##### data/last24
+#### data/last24
 Summary of the last 24 hours of data. Auto-refreshes every 3600 seconds (hour).  
 
-##### data/history
+#### data/history
 Summary of all data recorded in the system. No auto-refresh.  
 
-##### /status and /status/all
+####  /status and /status/all
 Summary of the state of the devices, volttron, and logs  
 
-##### /log and /log/all
+####  /log and /log/all
 Tab interface to read paginated logs
 
 -------------------------
@@ -63,13 +63,13 @@ GUI ELEMENTS
 -------------------------
 The dashboard is based on text, but includes simple graphical elements.
 
-####Graphs
+### Graphs
 >TODO: Need a charting library
 
-####Gauges
+### Gauges
 >TODO: Consider an animated gauge, something like http://justgage.com/
 
-####Customizable Grid Layout
+### Customizable Grid Layout
 >TODO: Consider a flexible grid layout that allows resizing (e.g. https://github.com/hootsuite/grid). 
 This would allow an "everything" dashboard page.
 
