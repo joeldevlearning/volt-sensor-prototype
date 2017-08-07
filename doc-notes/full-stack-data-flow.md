@@ -1,6 +1,6 @@
 # Full Stack Data Flow
 
-##What data?
+## What data?
 The purpose of the system is to optimize fan state: The fan should only run when necessary, and otherwise remain off. To accomplish this the system needs data from:
 - Devices (sensors and fans)
 - System components (to analyze data and keep the system working)
@@ -8,12 +8,12 @@ The purpose of the system is to optimize fan state: The fan should only run when
 
 Additionally, the dashboard reads data.
 
-##How is data processed?
+## How is data processed?
 The system has four main loops:
-1. Every 2 minutes Volttron collects data on the devices and system status ("status loop")
-2. Every 20 minutes, Volttron collects all data needed for the decision loop ("aggregate loop")
-3. Every 25 minutes, Volttron runs an aggregate-analyze-decide-control ("decision loop")
-4. Every 60 minutes, Volttron calls an external API for pricing information ("price-quote loop")
+#### 1. Every 2 minutes Volttron collects data on the devices and system status ("status loop")
+#### 2. Every 20 minutes, Volttron collects all data needed for the decision loop ("aggregate loop")
+#### 3. Every 25 minutes, Volttron runs an analyze-decide-control ("decision loop")
+#### 4. Every 60+ minutes, Volttron does additional tasks
 
 The dashboard updates on-demand, whenever the user loads it or leaves the dashboard window open.
 
