@@ -1,18 +1,24 @@
 # Full Stack Data Flow
 
-The system moves data from devices (from sensors and the fan) through volttron and reports via a user dashboard.
+##What data?
+The purpose of the system is to optimize fan state: The fan should only run when necessary, and otherwise remain off. To accomplish this the system needs three streams of data from:
+- Devices (sensors and fans)
+- System components (to analyze data and keep the system working)
+- External APIs (to complement the analysis)
 
+An additional need for data is for the dashboard, which reports to end-users.
+
+##How is data processed?
 The system has four main loops:
-1. Every 60 seconds Volttron checks the status of all system components ("status loop")
-2. Every 5 minutes Volttron stores sensor and fan data ("sampling loop")
-3. Every 10 minutes, Volttron runs an aggregate-analyze-decide-control ("decision loop")
-4. Every 60 minutes, Volttron runs external data collection (weather, pricing, etc.) ("accessory data loop") 
+1. Every 2 minutes Volttron collects data on the devices and system status ("status loop")
+2. Every 20 minutes, Volttron collects all data needed for the decision loop ("aggregate loop")
+3. Every 25 minutes, Volttron runs an aggregate-analyze-decide-control ("decision loop")
+4. Every 60 minutes, Volttron calls an external API for pricing information ("price-quote loop")
 
-And one on-demand component:
-1. When the user loads the dashboard, it reports on the status and details of the system.
+The dashboard updates on-demand, whenever the user loads it or leaves the dashboard window open.
 
 ---
-STATUS LOOP (every 60 seconds)
+ STATUS LOOP (every 2 minutes)
 ---
 
 ### 1) Volttron driver polls sensors and fan
@@ -28,47 +34,39 @@ Our customized WatchDog agent checks various system pieces:
     
 WatchDog writes any failed checks to the log, sends an alert to the cloud, and publishes its results to the message bus.
     
-### 3) StatusHistorian records sensor data and fan state 
-Our customized StatusHistorian records the following in the database:
-    - the current values of sensors and fan state (data is overwritten after 24 hours)
-    - any errors reported by WatchDog 
+### 3) StatusHistorian records any warnings or errors 
+Our customized StatusHistorian records WatchDog status results in the database.
 
----
-SAMPLING LOOP (every 5 minutes, i.e. 300 seconds)
----
-### 1) Volttron driver polls sensors and fan
-As part of its 60 second routine, volttron reads sensor and the fan state, publishing these to the message bus.
-
-### 2) SamplingHistorian records sensor data and fan state 
-Our customized SamplingHistorian records sensor data and fan state to the database. This data is permanent and used for analysis.
-
->TODO: Should we keep all of this data on the local database? or should we keep a set amount locally and send all of it to the cloud?
+### 4) Gauge agents sample sensor and fan data
+Our customized Gauge agents retain the state of each device for the desired sampling period. They continuously update.
+  
+### 5) GaugeHistorian agent store sensor and fan data
+Each type of GaugeAgent has its own Historian that stores the gauge data in the database, for long-term use. 
 
 >For Historian topic syntax, see http://volttron.readthedocs.io/en/releases-4.1/core_services/historians/Historian-Topic-Syntax.html 
+
+---
+AGGREGATE LOOP (every 20 minutes)
+---
+
+### 1) WeatherAgent calls external API for data
+An agent collects weather data, which the FanDecisionLogic will use during the decision loop.
+
+### 2) SeasonalFacilityModel updates
+A customized volttron driver reads each sensor and the fan state. It validates and publishes these to the message bus.
+
 
 ---
 DECISION LOOP (every 10 minutes)
 ---
 
->NOTE: An alternative... a "gauge" agent for each device.
- The gauge would model and continuously update the device's state.
- Gauge's would hold data for a certain sampling period, then send it to storage.
- A gauge could expose methods like averageMean(), min(), max(), etc.
- Gauge's could link drivers to higher level components, flattening the levels of code.
- For example, the FanDecisionLogic could simply call each gauge, removing the "DataAggregator".
- Likewise, the dashboard could send remote requests to the gauges for real time status. 
-
-
-### 1) DataAggregator retrieves and publishes relevant data
-DataAggregator fetches sensor data, the fan state, and any other relevant data into a collection. It publishes this to the message bus.
- 
-### 2) FanDecisionLogic begins
+### 1) FanDecisionLogic begins
 FanDecisionLogic retrieves the aggregated data and begins a chain sequence. First it calls an RPC on FacilityModel.
 
-### 3) FacilityModel updates model
+### 2) FacilityModel updates model
 Our customized FacilityModel agent combines sensor and fan data, analyzes them, and reaches a decision about the fan. It returns this decision to FanDecisionLogic.
 
-### 4) FanDecisionLogic decides what command to send to the fan
+### 3) FanDecisionLogic decides what command to send to the fan
 FanDecisionLogic uses the FacilityModel results to determine if the fan state should change or remain the same. If a change is needed, it calls the FanController via RPC. It reports on its decision to the message bus.
 
 ### 5) If called, FanController processes the command
