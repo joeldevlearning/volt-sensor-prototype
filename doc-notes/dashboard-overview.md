@@ -73,3 +73,24 @@ The dashboard is based on text, but includes simple graphical elements.
 >TODO: Consider a flexible grid layout that allows resizing (e.g. https://github.com/hootsuite/grid). 
 This would allow an "everything" dashboard page.
 
+-------------------------
+ARCHITECTURE
+-------------------------
+
+A "live" (close to real-time) updating dashboard requires web sockets. In turn this requires at least four pieces of software:
+- a webserver to serve the webpage
+- javascript in the webpage to establish a web socket connection
+- a web socket server to receive the client's connection
+- some server to publish data to the web socket server (could be the webserver)
+
+One way to simplify this is to use a third-party service, like pusher (http://www.pusher.com), to coordinate client and server. Then Volttron agents can connect to clients through pusher. Other third-party services include:
+- https://getstream.io/
+- https://socketize.com/
+- https://www.hydna.com/
+- https://www.pushtechnology.com/pricing/
+- https://www.pubnub.com/
+
+
+There are also self-hosted options, like socket.io. Others are http://firehose.io/, https://github.com/Atmosphere, https://socketcluster.io/#!/, https://github.com/SignalR/SignalR, https://faye.jcoglan.com/, http://www.pusheo.com/pricing/, 
+
+
